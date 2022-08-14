@@ -1,0 +1,436 @@
+----------- by Temmpl
+
+getgenv().Tap = false;
+getgenv().egg = false;
+getgenv().egg2 = false;
+getgenv().infjump = false;
+
+function Tap()
+    game:GetService("RunService").Stepped:Connect(function()
+        if getgenv().Tap then
+            game:GetService("VirtualUser"):ClickButton1(Vector2.new(125,125))
+        end
+    end)
+    plr = Players.LocalPlayer
+    mouse = plr:GetMouse()
+    mouse.KeyDow:Connect(function(key)
+        if key == "t" then
+            getgenv().Tap = not getgenv().Tap
+        end
+   end)
+end
+
+function Egg(selectedEgg)
+    while wait(1) do
+        if not getgenv().egg then
+            break
+        end
+        local A_1 = selectedEgg
+        local A_2 = "Coins"
+        local Event = game:GetService("ReplicatedStorage").Remotes.Pets.Eggs.HatchEgg
+        Event:FireServer(A_1, A_2)
+    end
+end
+
+function Egg2(selectedEgg)
+    while wait(1) do
+        if not getgenv().egg2 then
+            break
+        end
+        local A_1 = selectedEgg
+        local A_2 = "Diamonds"
+        local Event = game:GetService("ReplicatedStorage").Remotes.Pets.Eggs.HatchEgg
+        Event:FireServer(A_1, A_2)
+    end
+end
+
+function infjump() 
+    game:GetService("UserInputService").JumpRequest:connect(function()
+        if getgenv().infjump then
+            game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")
+        end
+    end)
+end
+
+
+local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+local window = lib.CreateLib("Teemp ModMenu", "BloodTheme")
+local maintab = window:NewTab("Farm")
+local second = window:NewTab("Misc")
+local Teleport = window:NewTab("Teleports")
+
+local Main = maintab:NewSection("Farming")
+local Misc = second:NewSection("Misc")
+local Tp = Teleport:NewSection("Teleport Player") 
+
+---------------------Farming ----------------------------------
+Main:NewToggle("AutoTap","Toggle Tap", function (bool)
+    getgenv().Tap = bool
+    if bool then 
+        Tap();
+    end
+end)
+
+Main:NewButton("Super Rebirth", "Button Rebirth",function ()
+    local lp = game.Players.LocalPlayer.Character.HumanoidRootPart
+ 
+    lp.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+    lp.CFrame = CFrame.new(150.9437255859375, 4.1143693923950195, 243.56137084960938)
+end)
+
+Main:NewButton("Sell", "Button Sell",function ()
+    local lp = game.Players.LocalPlayer.Character.HumanoidRootPart
+    local pos = lp.CFrame
+ 
+    lp.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+    lp.CFrame = CFrame.new(222.30462646484375, 4.114368438720703, 384.5313720703125)
+    wait(0.3)
+ 
+     lp.CFrame = pos
+end)
+
+Main:NewButton("Swords", "Buy Sword", function ()
+    local lpr = game.Players.LocalPlayer.Character.HumanoidRootPart
+
+    lpr.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+    lpr.CFrame = CFrame.new(222.86009216308594, 4.114368438720703, 399.48681640625)
+
+end)
+--------------------------------WORLD 1 EGGS -------------------------------------------------
+Main = maintab:NewSection("World 1 Eggs")
+
+local selectedword1Egg;
+Main:NewDropdown("Select Eggs","you must be close to the egg to work", {"BasicEgg","WizardEgg","FrozenEgg","CandyEgg", "MagmaEgg"}, function(value)
+    selectedword1Egg = value;
+    print(value)
+end)
+Main:NewToggle("Buy Eggs","you must be close to the egg to work",function(bool)
+    getgenv().egg = bool
+    if bool and selectedword1Egg  then
+        Egg(selectedword1Egg);
+    end
+end)
+--------------------------WORLS 2 EGG--------------------------------------------------------
+Main = maintab:NewSection("World 2 Eggs")
+
+local selectedworld2Egg;
+Main:NewDropdown("Select Eggs","you must be close to the egg to work", {"WaterEgg", "ScaryEgg", "SpaceRocketEgg", "MummyEgg", "PirateEgg"}, function(value)
+    selectedworld2Egg = value;
+    print(value)
+end)
+
+Main:NewToggle("Buy Eggs","you must be close to the egg to work",function(bool)
+    getgenv().egg2 = bool
+    if bool and selectedworld2Egg  then
+        Egg2(selectedworld2Egg);
+    end
+end)
+--------------------------WORLD 3 EGGS -------------------------------------------------------------
+Main = maintab:NewSection("World 3 Eggs")
+
+local selectedworld2Egg;
+Main:NewDropdown("Select Eggs","you must be close to the egg to work", {"CyborgEgg","SpaceEgg", "CryptoEgg", "ToyEgg","SteamEgg"}, function(value)
+    selectedworld2Egg = value;
+    print(value)
+end)
+
+Main:NewToggle("Buy Eggs","you must be close to the egg to work",function(bool)
+    getgenv().egg2 = bool
+    if bool and selectedworld2Egg  then
+        Egg2(selectedworld2Egg);
+    end
+end)
+----------------------------------------------------------------
+------------------------MISC -----------------------------------
+-----------------------------------------------------------------
+
+Misc:NewSlider("WalkSpeed", "increase speed", 150, 16, function(val)
+    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = val
+end)
+
+Misc:NewSlider("JumpPower", "increase the jump", 150, 16, function(val)
+    game.Players.LocalPlayer.Character.Humanoid.JumpPower = val
+end)
+
+Misc:NewToggle("InfJump", "Toggle infinite jump", function(bool)
+    getgenv().infjump = bool
+    if bool then
+        infjump()
+    end
+end)
+
+-----------------------Teleport ----------------------------------------
+
+Tp:NewTextBox("Player Name: ","teleport a player",function (insert)
+    local p1 = game.Players.LocalPlayer.Character.HumanoidRootPart
+    local p2 = insert
+
+    p1.CFrame = game.Players[insert].Character.HumanoidRootPart.CFrame
+end)
+
+Tp = Teleport:NewSection("World 1")
+
+local selectWorld;
+Tp:NewDropdown("Select Fase","Worlds", {"Medival","Candy","Lava"},function(value)
+    selectWorld = value;
+    print(value)
+end)
+
+Tp:NewButton("Teleport", "Button Teleport",function()
+    function Teleport(world)
+        local aa = world
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.LightingCHangeTriggers[world].CFrame
+    end
+    if selectWorld then
+        Teleport(selectWorld)
+    end
+end)
+
+Tp = Teleport:NewSection("World 2")
+
+Tp:NewDropdown("Select Fase","Wolds", {"Atlantis", "Grave","Moon", "Desert", "Pirate"},function(value)
+    selectWorld = value;
+    print(value)
+end)
+
+Tp:NewButton("Teleport", "Button Teleport", function ()
+    function Teleport(world)
+        local aa = world
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.LightingCHangeTriggers[world].CFrame
+    end
+    if selectWorld then
+        Teleport(selectWorld)
+    end
+end)
+
+Tp = Teleport:NewSection("World 3")
+
+Tp:NewDropdown("Select Fase","Wolds", {"Space", "Cryptic","ToysRoom", "Steampunk","Beach"},function(value)
+    selectWorld = value;
+    print(value)
+end)
+
+Tp:NewButton("Teleport", "Button Teleport", function ()
+    function Teleport(world)
+        local aa = world
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.WORLDS.World3.Gameplay.RegionBariers[world].CFrame
+    end
+    if selectWorld then
+        Teleport(selectWorld)
+    end
+end)
+-------------------------------------AREAS ------------------------------------
+Tp = Teleport:NewSection("Areas")
+
+Tp:NewButton("KrakenRaid Portal", "TP KrakenRaid", function ()
+    function Teleport()
+        lp = game.Players.LocalPlayer.Character.HumanoidRootPart
+
+        lp.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+        lp.CFrame = CFrame.new(2825.5654296875, 21.284217834472656, 410.9617004394531)
+    end
+    Teleport()
+end)
+
+Tp:NewButton("Forbiden Area", "TP ForbidenPortal", function ()
+    function Teleport()
+        lp = game.Players.LocalPlayer.Character.HumanoidRootPart
+
+        lp.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+        lp.CFrame = CFrame.new(28150.310546875, 14.746394157409668, -466.17413330078125)
+    end
+    Teleport()
+end)
+
+Tp:NewButton("Titans Arena", "TP Titans", function ()
+    function Teleport()
+        lp = game.Players.LocalPlayer.Character.HumanoidRootPart
+
+        lp.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+        lp.CFrame = CFrame.new(-112.22761535644531, 4.114368438720703, 388.7018127441406)
+    end
+    Teleport()
+end)
+
+Tp:NewButton("Megalodon Raid", "TP Megalodon", function ()
+    function Teleport()
+        lp = game.Players.LocalPlayer.Character.HumanoidRootPart
+
+        lp.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+        lp.CFrame = CFrame.new(32560.794921875, 48.487796783447266, -48597.1796875)
+    end
+    Teleport()
+end)
+
+Tp:NewButton("Pvp Arena", "TP PVP", function ()
+    function Teleport()
+        lp = game.Players.LocalPlayer.Character.HumanoidRootPart
+
+        lp.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+        lp.CFrame = CFrame.new(54.43811798095703, 4.11433219909668, 76.49839782714844)
+    end
+    Teleport()
+end)
+
+Tp:NewButton("Tournament of Power", "TP Tournament", function ()
+    function Teleport()
+        lp = game.Players.LocalPlayer.Character.HumanoidRootPart
+
+        lp.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+        lp.CFrame = CFrame.new(-3682.65087890625, 35.37981033325195, 189.04063415527344)
+    end
+    Teleport()
+end)
+------------------------------- BOSSES ------------------------------------------
+Tp = Teleport:NewSection("Bosses")
+-----------------------BOSSES WORLD 1 --------------------------------------------------
+Tp:NewButton("Muzan", "TP Muzan", function ()
+    function Teleport()
+        lp = game.Players.LocalPlayer.Character.HumanoidRootPart
+
+        lp.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+        lp.CFrame = CFrame.new(-44.895145416259766, 4.114369869232178, 510.59564208984375)
+    end
+    Teleport()
+end)
+
+Tp:NewButton("Cenel", "TP Cenel", function ()
+    function Teleport()
+        lp = game.Players.LocalPlayer.Character.HumanoidRootPart
+
+        lp.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+        lp.CFrame = CFrame.new(-70.37040710449219, 4.046370983123779, 675.49072265625)
+    end
+    Teleport()
+end)
+
+Tp:NewButton("Freeza", "TP Freeza", function ()
+    function Teleport()
+        lp = game.Players.LocalPlayer.Character.HumanoidRootPart
+
+        lp.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+        lp.CFrame = CFrame.new(-92.93898010253906, 4.046370029449463, 877.3860473632812)
+    end
+    Teleport()
+end)
+
+Tp:NewButton("Crow Face", "TP Crow Face", function ()
+    function Teleport()
+        lp = game.Players.LocalPlayer.Character.HumanoidRootPart
+
+        lp.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+        lp.CFrame = CFrame.new(-66.10057830810547, 4.046369552612305, 1192.0853271484375)
+    end
+    Teleport()
+end)
+
+Tp:NewButton("Mega Boss Lava Golem", "TP LavaGolem", function ()
+    function Teleport()
+        lp = game.Players.LocalPlayer.Character.HumanoidRootPart
+
+        lp.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+        lp.CFrame = CFrame.new(-10.811773300170898, 4.046416759490967, 1384.048828125)
+    end
+    Teleport()
+end)
+-------------------------- BOSSES WORLD 2 ---------------------------------------
+Tp:NewButton("The Universe", "TP Universe", function ()
+    function Teleport()
+        lp = game.Players.LocalPlayer.Character.HumanoidRootPart
+
+        lp.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+        lp.CFrame = CFrame.new(3019.135498046875, 14.658096313476562, 488.9969482421875)
+    end
+    Teleport()
+end)
+
+Tp:NewButton("undead warrior", "TP Undead Warrios", function ()
+    function Teleport()
+        lp = game.Players.LocalPlayer.Character.HumanoidRootPart
+
+        lp.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+        lp.CFrame = CFrame.new(3071.358642578125, 14.246391296386719, 672.8717041015625)
+    end
+    Teleport()
+end)
+
+Tp:NewButton("Brothers", "TP Brothers", function ()
+    function Teleport()
+        lp = game.Players.LocalPlayer.Character.HumanoidRootPart
+
+        lp.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+        lp.CFrame = CFrame.new(2815.9267578125, 14.246362686157227, 879.8372192382812)
+    end
+    Teleport()
+end)
+
+Tp:NewButton("Gaara", "TP Gaara", function ()
+    function Teleport()
+        lp = game.Players.LocalPlayer.Character.HumanoidRootPart
+
+        lp.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+        lp.CFrame = CFrame.new(2837.45849609375, 14.254265785217285, 1109.13427734375)
+    end
+    Teleport()
+end)
+
+Tp:NewButton("Mega Boss King Crab", "TP Crab", function ()
+    function Teleport()
+        lp = game.Players.LocalPlayer.Character.HumanoidRootPart
+
+        lp.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+        lp.CFrame = CFrame.new(3059.727783203125, 14.254265785217285, 1309.540771484375    )
+    end
+    Teleport()
+end)
+-----------------------------------BOSSES WORLD 3 ----------------------------------------
+Tp:NewButton("battle bot", "TP battle bot", function ()
+    function Teleport()
+        lp = game.Players.LocalPlayer.Character.HumanoidRootPart
+
+        lp.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+        lp.CFrame = CFrame.new(-3520.477294921875, 35.42325210571289, 213.58615112304688    )
+    end
+    Teleport()
+end)
+
+Tp:NewButton("Bills", "TP Bills", function ()
+    function Teleport()
+        lp = game.Players.LocalPlayer.Character.HumanoidRootPart
+
+        lp.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+        lp.CFrame = CFrame.new(-3453.70556640625, 35.37981414794922, 410.22613525390625    )
+    end
+    Teleport()
+end)
+
+Tp:NewButton("Gyutari", "TP Gyutari", function ()
+    function Teleport()
+        lp = game.Players.LocalPlayer.Character.HumanoidRootPart
+
+        lp.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+        lp.CFrame = CFrame.new(-3714.06396484375, 35.37981414794922, 589.0913696289062  )
+    end
+    Teleport()
+end)
+
+Tp:NewButton("Duquek Lord", "TP Duquek", function ()
+    function Teleport()
+        lp = game.Players.LocalPlayer.Character.HumanoidRootPart
+
+        lp.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+        lp.CFrame = CFrame.new(-3459.27001953125, 35.396392822265625, 805.9671630859375    )
+    end
+    Teleport()
+end)
+
+Tp:NewButton("Mega Boss Jeff", "TP Jeff", function ()
+    function Teleport()
+        lp = game.Players.LocalPlayer.Character.HumanoidRootPart
+
+        lp.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+        lp.CFrame = CFrame.new(-3454.44287109375, 35.396392822265625, 1009.65185546875)
+    end
+    Teleport()
+end)
+--------------------------------BOSSES WORLD 4 ---------------------------------------
