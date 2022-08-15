@@ -1,2 +1,3 @@
 if game.PlaceId == 7728848215 then -- Slashing Simulator
     loadstring(game:HttpGet('https://raw.githubusercontent.com/TeempL1/Menu/main/Slashing'))()
+end
